@@ -1,6 +1,7 @@
 #ifndef STAN_IO_ARRAY_VAR_CONTEXT_HPP
 #define STAN_IO_ARRAY_VAR_CONTEXT_HPP
 
+#include <iostream>
 #include <stan/io/var_context.hpp>
 #include <stan/io/validate_dims.hpp>
 #include <stan/math.hpp>
@@ -36,6 +37,49 @@ class array_var_context : public var_context {
   const std::vector<double> empty_vec_r_;
   const std::vector<int> empty_vec_i_;
   const std::vector<size_t> empty_vec_ui_;
+
+  void print() {
+    std::cerr << "{";
+    int i = 0;
+    for (auto& vars_r_iter : vars_r_) {
+      std::string name = vars_r_iter.first;
+      std::vector<double> data = vars_r_iter.second.first;
+      std::cerr << "\"" << name << "\": [";
+      int j = 0;
+      for (auto& d : data) {
+        std::cerr << d;
+        if (j < data.size() - 1) {
+          std::cerr << ", ";
+        }
+        j++;
+      }
+      std::cerr << "]";
+      if (i < vars_r_.size() - 1) {
+        std::cerr << ",";
+      }
+      i++;
+    }
+    i = 0;
+    for (auto& vars_i_iter : vars_i_) {
+      std::string name = vars_i_iter.first;
+      std::vector<int> data = vars_i_iter.second.first;
+      std::cerr << "\"" << name << "\": [";
+      int j = 0;
+      for (auto& d : data) {
+        std::cerr << d;
+        if (j < data.size() - 1) {
+          std::cerr << ", ";
+        }
+        j++;
+      }
+      std::cerr << "]";
+      if (i < vars_i_.size() - 1) {
+        std::cerr << ",";
+      }
+      i++;
+    }
+    std::cerr << "}" << std::endl;
+  }
 
   /**
    * Search over the real variables to check if a name is in the map

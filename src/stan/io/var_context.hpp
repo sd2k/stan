@@ -1,6 +1,7 @@
 #ifndef STAN_IO_VAR_CONTEXT_HPP
 #define STAN_IO_VAR_CONTEXT_HPP
 
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -30,6 +31,8 @@ namespace io {
 class var_context {
  public:
   virtual ~var_context() {}
+
+  virtual void print() { std::cout << "var_context" << std::endl; }
 
   /**
    * Return <code>true</code> if the specified variable name is
@@ -69,7 +72,8 @@ class var_context {
    * @return Sequence of values for the named variable.
    */
   virtual std::vector<std::complex<double>> vals_c(
-      const std::string& name) const = 0;
+      const std::string& name) const
+      = 0;
 
   /**
    * Return the dimensions for the specified floating point variable.
@@ -137,10 +141,10 @@ class var_context {
    * @throw std::runtime_error if mismatch between declared
    *        dimensions and dimensions found in context.
    */
-  virtual void validate_dims(
-      const std::string& stage, const std::string& name,
-      const std::string& base_type,
-      const std::vector<size_t>& dims_declared) const = 0;
+  virtual void validate_dims(const std::string& stage, const std::string& name,
+                             const std::string& base_type,
+                             const std::vector<size_t>& dims_declared) const
+      = 0;
 
   /**
    * Append vector of dimensions to message string.

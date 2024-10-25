@@ -75,6 +75,8 @@ class json_data : public stan::io::var_context {
     rapidjson_parse(in, handler);
   }
 
+  void print() {}
+
   /**
    * Return <code>true</code> if this json_data contains the specified
    * variable name. This method returns <code>true</code>
